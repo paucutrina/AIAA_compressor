@@ -1,5 +1,6 @@
 import numpy as np
-
+from sklearn.gaussian_process import GaussianProcessRegressor
+from sklearn.gaussian_process.kernels import RBF
 from sklearn.multioutput import MultiOutputRegressor
 from sklearn.svm import SVR
 
@@ -17,8 +18,9 @@ num_simulations = 5
 start_num_test = 40
 
 ############## MODELS ##############
+gpr = GaussianProcessRegressor(kernel=RBF(length_scale_bounds=(3, 5)), alpha=1e-10, random_state=0)
 svr = SVR(kernel='rbf', C=200, gamma='scale', epsilon=1e-10)
-model = MultiOutputRegressor(svr)
+model = MultiOutputRegressor(gpr)
 
 ############## GET DATASET ##############
 dataset = get_dataset(num_samples=num_samples)
